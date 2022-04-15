@@ -1,0 +1,122 @@
+﻿<UserControl x:Class="NetworkService.Views.MeasurementGraphView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:NetworkService.Views"
+             xmlns:viewModel="clr-namespace:NetworkService.ViewModel"
+             mc:Ignorable="d" 
+             d:DesignHeight="750" d:DesignWidth="1400">
+    <UserControl.DataContext>
+        <viewModel:MeasurementGraphViewModel/>
+    </UserControl.DataContext>
+    <UserControl.InputBindings>
+        <KeyBinding Command="{Binding ButtonCommand}" Modifiers="Ctrl" Key="S"/>
+    </UserControl.InputBindings>
+    <Canvas Width="1400" Height="750" Background="White">
+        <Label Content="MEASUREMENT GRAPH" FontFamily="Comic Sans MS" FontSize="50" Canvas.Top="10" Canvas.Left="10" Width="1380" HorizontalContentAlignment="Center"/>
+        <ComboBox x:Name="cbEntities" ItemsSource="{Binding Struje}" SelectedItem ="{Binding Selected}" Height="30" Width="270" HorizontalAlignment="Right" 
+                  Canvas.Left="356" Canvas.Top="138" ToolTipService.IsEnabled="{Binding ToolTipsBool}" ToolTip="Odabir entiteta od kog ce se prikazati poslednjih 5 merenja"
+                  FontFamily="Comic Sans MS" FontSize="20"/>
+        <Canvas Width="1300" Height="500" Canvas.Left="50" Canvas.Top="210">
+            <Label Content="Watt per hour (KWh)" Canvas.Top="10" FontSize="30" FontFamily="Comic Sans MS" Width="1280" Canvas.Left="10"
+                   HorizontalContentAlignment="Center"/>
+            <Line X1="50" Y1="400" X2="1250" Y2="400" Stroke="Black" StrokeThickness="4"/>
+            <Line X1="50" Y1="350" X2="1250" Y2="350" Stroke="Gray" StrokeThickness="4"/>
+            <Line X1="50" Y1="300" X2="1250" Y2="300" Stroke="Gray" StrokeThickness="4"/>
+            <Line X1="50" Y1="250" X2="1250" Y2="250" Stroke="DarkGray" StrokeThickness="4"/>
+            <Line X1="50" Y1="200" X2="1250" Y2="200" Stroke="DarkGray" StrokeThickness="4"/>
+            <Line X1="50" Y1="150" X2="1250" Y2="150" Stroke="LightGray" StrokeThickness="4"/>
+            <Label Content="{Binding Picked.Entities[0].DisplayDate}" FontFamily="digital-7" FontSize="25" Canvas.Top="443" Width="80"
+                   HorizontalContentAlignment="Center" Canvas.Left="200" RenderTransformOrigin="0.5,0.5">
+                <Label.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="-70"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Label.RenderTransform>
+            </Label>
+            <Label Content="{Binding Picked.Entities[1].DisplayDate}" FontFamily="digital-7" FontSize="25" Canvas.Top="444" Width="80"
+                   HorizontalContentAlignment="Center" Canvas.Left="400" RenderTransformOrigin="0.5,0.5">
+                <Label.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="-70"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Label.RenderTransform>
+            </Label>
+            <Label Content="{Binding Picked.Entities[2].DisplayDate}" FontFamily="digital-7" FontSize="25" Canvas.Top="444" Width="80"
+                   HorizontalContentAlignment="Center" Canvas.Left="600" RenderTransformOrigin="0.5,0.5">
+                <Label.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="-70"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Label.RenderTransform>
+            </Label>
+            <Label Content="{Binding Picked.Entities[3].DisplayDate}" FontFamily="digital-7" FontSize="25" Canvas.Top="458" Width="80"
+                   HorizontalContentAlignment="Center" Canvas.Left="800" RenderTransformOrigin="0.5,0.5">
+                <Label.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="-70"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Label.RenderTransform>
+            </Label>
+            <Label Content="{Binding Picked.Entities[4].DisplayDate}" FontFamily="digital-7" FontSize="25" Canvas.Top="454" Width="80"
+                   HorizontalContentAlignment="Center" Canvas.Left="1000" RenderTransformOrigin="0.5,0.5">
+                <Label.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="-70"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Label.RenderTransform>
+            </Label>
+            <Grid Width="50" Height="50" Canvas.Left="200" Canvas.Top="{Binding Picked.Entities[0].DrawMeasured}">
+                <Ellipse Width="40" Height="40" Fill="{Binding Picked.Entities[0].Color}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <Label Content="{Binding Picked.Entities[0].DisplayMeasure}" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="15" 
+                       VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White"/>
+            </Grid>
+            <Grid Width="50" Height="50" Canvas.Left="400" Canvas.Top="{Binding Picked.Entities[1].DrawMeasured}">
+                <Ellipse Width="40" Height="40" Fill="{Binding Picked.Entities[1].Color}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <Label Content="{Binding Picked.Entities[1].DisplayMeasure}" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="15" 
+                       VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White"/>
+            </Grid>
+            <Grid Width="50" Height="50" Canvas.Left="600" Canvas.Top="{Binding Picked.Entities[2].DrawMeasured}">
+                <Ellipse Width="40" Height="40" Fill="{Binding Picked.Entities[2].Color}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <Label Content="{Binding Picked.Entities[2].DisplayMeasure}" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="15" 
+                       VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White"/>
+            </Grid>
+            <Grid Width="50" Height="50" Canvas.Left="800" Canvas.Top="{Binding Picked.Entities[3].DrawMeasured}">
+                <Ellipse Width="40" Height="40" Fill="{Binding Picked.Entities[3].Color}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <Label Content="{Binding Picked.Entities[3].DisplayMeasure}" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="15" 
+                       VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White"/>
+            </Grid>
+            <Grid Width="50" Height="50" Canvas.Left="1000" Canvas.Top="{Binding Picked.Entities[4].DrawMeasured}">
+                <Ellipse Width="40" Height="40" Fill="{Binding Picked.Entities[4].Color}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <Label Content="{Binding Picked.Entities[4].DisplayMeasure}" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="15" 
+                       VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White"/>
+            </Grid>
+
+        </Canvas>
+        <Label Content="Entity" FontFamily="Comic Sans MS" FontSize="30" Canvas.Top="128" Canvas.Left="220" />
+        <Button Content="Show" Height="50" Width="300" FontSize="30" FontFamily="Comic Sans MS" Canvas.Left="759" Canvas.Top="130"
+                Command="{Binding ButtonCommand}" ToolTipService.IsEnabled="{Binding ToolTipsBool}" ToolTip="Dugme za prikaz merenja"/>
+        <CheckBox Content="ToolTip" IsChecked="{Binding ToolTipsBool}" FontFamily="Comic Sans MS" FontSize="15" Canvas.Left="1230" Canvas.Top="7" 
+                  Height="20" Width="75">
+            <CheckBox.LayoutTransform>
+                <ScaleTransform ScaleX="2" ScaleY="2" />
+            </CheckBox.LayoutTransform>
+        </CheckBox>
+    </Canvas>
+</UserControl>

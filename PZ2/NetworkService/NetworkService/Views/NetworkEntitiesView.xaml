@@ -1,0 +1,99 @@
+﻿<UserControl x:Class="NetworkService.Views.NetworkEntitiesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:NetworkService.Views"
+             xmlns:viewModel="clr-namespace:NetworkService.ViewModel"
+             mc:Ignorable="d" 
+             d:DesignHeight="750" d:DesignWidth="1400">
+    <UserControl.DataContext>
+        <viewModel:NetworkEntitiesViewModel/>
+    </UserControl.DataContext>
+    <UserControl.InputBindings>
+        <KeyBinding Command="{Binding FilterCommand}" Modifiers="Ctrl" Key="F"/>
+        <KeyBinding Command="{Binding AddCommand}" Modifiers="Ctrl" Key="D"/>
+        <KeyBinding Command="{Binding HelpCommand}" Key="F1"/>
+    </UserControl.InputBindings>
+    <Canvas Width="1400" Height="750" Background="White">
+        <Label Content="NETWORK ENTITIES"  Canvas.Left="434" FontFamily="Comic Sans MS" FontSize="50" Canvas.Top="10"/>
+        <Label Content="{Binding FilterIDGreska}" Foreground="Red" 
+               Canvas.Left="490" FontFamily="Comic Sans MS" FontSize="15" Canvas.Top="148" Height="38" Width="434"/>
+        <Label Content="{Binding NovaStruja.ValidationErrors[Id]}" Foreground="Red" 
+               Canvas.Left="62" FontFamily="Comic Sans MS" FontSize="15" Canvas.Top="604" Height="32" Width="377"/>
+        <Label Content="{Binding NovaStruja.ValidationErrors[Type]}" Foreground="Red" 
+               Canvas.Left="62" FontFamily="Comic Sans MS" FontSize="15" Canvas.Top="696" Height="30" Width="377"/>
+        <Label Content="{Binding NovaStruja.ValidationErrors[Name]}" Foreground="Red" 
+               Canvas.Left="490" FontFamily="Comic Sans MS" FontSize="15" Canvas.Top="604" Height="87" Width="332" />
+        <Label Content="Type" Canvas.Left="91" Canvas.Top="104" FontFamily="Comic Sans MS" FontSize="20"/>
+        <Label Content="ID" FontFamily="Comic Sans MS" FontSize="20" Canvas.Left="490" Canvas.Top="102" ToolTipService.IsEnabled="{Binding ToolTipsBool}" 
+               ToolTip="Odabir da li ce ID biti veci ili manji od zadatog broja za filtriranje"/>
+        <ComboBox x:Name="cbChooseType1" Canvas.Left="206" Canvas.Top="97" Width="228" Height="45" ItemsSource="{Binding Tipovi}"
+                  DisplayMemberPath="Name" SelectedValue="{Binding FilterTip, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                  FontSize="25" FontFamily="Comic Sans MS" ToolTipService.IsEnabled="{Binding ToolTipsBool}" ToolTip="Odabir tipa za filtriranje" />
+        <RadioButton Content="&gt;" x:Name="rbMore" IsChecked="{Binding FilterM, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Canvas.Left="530" 
+                     Canvas.Top="97" ToolTipService.IsEnabled="{Binding ToolTipsBool}" ToolTip="Odabir da li ce ID biti veci od zadatog broja za filtriranje"/>
+
+        <RadioButton Content="&lt;" x:Name="rbLess" IsChecked="{Binding FilterL, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Canvas.Left="530"
+                     Canvas.Top="123" ToolTipService.IsEnabled="{Binding ToolTipsBool}" ToolTip="Odabir da li ce ID biti manji od zadatog broja za filtriranje"/>
+        <TextBox x:Name="tbchosenID" Width="72" Canvas.Left="590" Canvas.Top="98" Height="45" HorizontalContentAlignment="Center"
+                 VerticalContentAlignment="Center" FontSize="25" Text="{Binding FilterID, Mode=TwoWay}" ToolTipService.IsEnabled="{Binding ToolTipsBool}" 
+               ToolTip="Odabir broja za filtriranje"/>
+        <Button x:Name="btFilter" Content="Filter" FontFamily="Comic Sans MS" FontSize="20"  
+                Height="45" Width="200" Canvas.Left="706" Canvas.Top="97" Command="{Binding FilterCommand}"/>
+        <DataGrid x:Name="dgData" Width="864" Canvas.Left="60" Canvas.Top="186" Height="356" AutoGenerateColumns="False" 
+                  CanUserResizeColumns="False" CanUserSortColumns="False" CanUserReorderColumns="False" TextBlock.TextAlignment="Center" SelectionMode ="Single"
+                  IsReadOnly="True" ItemsSource="{Binding PrikazStruja, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding Izabran}" 
+                  ToolTipService.IsEnabled="{Binding ToolTipsBool}" ToolTip="Prikaz postojecih entiteta">
+            <DataGrid.Resources>
+                <Style BasedOn="{StaticResource {x:Type DataGridColumnHeader}}" TargetType="{x:Type DataGridColumnHeader}">
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                    <Setter Property="FontSize" Value="20px"/>
+                    <Setter Property="FontFamily" Value="Comic Sans MS"/>
+                </Style>
+                <Style TargetType="DataGridRow">
+                    <Setter Property="Background" Value="Transparent"/>
+                </Style>
+                <Style TargetType="DataGridRowHeader">
+                    <Setter Property="Width" Value="0"/>
+                </Style>
+            </DataGrid.Resources>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="100" FontFamily="Comic Sans MS" FontSize="20"/>
+                <DataGridTextColumn Header="NAME" Binding="{Binding Name}" Width="200" FontFamily="Comic Sans MS" FontSize="20"/>
+                <DataGridTextColumn Header="TYPE" Binding="{Binding Type.Name}" Width="200" FontFamily="Comic Sans MS" FontSize="20"/>
+                <DataGridTextColumn Header="VALUE" Binding="{Binding Valued, UpdateSourceTrigger=PropertyChanged}" Width="*" FontFamily="Comic Sans MS" FontSize="20"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <TextBox x:Name="tbchosenID1" Width="72" Canvas.Left="166" Canvas.Top="555" Height="45" Text="{Binding NovaStruja.Id}"
+                 HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="25" ToolTipService.IsEnabled="{Binding ToolTipsBool}" 
+               ToolTip="Unos ID-a za novi entitet koji mora biti jedinstven"/>
+        <TextBox x:Name="tbName" Width="228" Canvas.Left="594" Canvas.Top="555" Height="45" Text="{Binding NovaStruja.Name}"
+                 FontSize="25" FontFamily="Comic Sans MS" ToolTipService.IsEnabled="{Binding ToolTipsBool}" ToolTip="Unos naziva za novi entitet"/>
+        <Label Content="Name" FontFamily="Comic Sans MS" FontSize="20" Canvas.Left="490" Canvas.Top="555" Width="72"/>
+        <Label Content="ID" FontFamily="Comic Sans MS" FontSize="20" Canvas.Left="62" Canvas.Top="555"/>
+        <Label Content="Type" Canvas.Left="62" Canvas.Top="641" FontFamily="Comic Sans MS" FontSize="20"/>
+        <ComboBox x:Name="cbChooseType2" Canvas.Left="166" Canvas.Top="646" Width="228" Height="45"
+                  ItemsSource="{Binding Tipovi}" DisplayMemberPath="Name" SelectedValue="{Binding NovaStruja.Type}" 
+                  FontSize="25" FontFamily="Comic Sans MS" ToolTipService.IsEnabled="{Binding ToolTipsBool}" ToolTip="Unos tipa za novi entitet"/>
+        <Image x:Name="img" Width="220" Height="130" Canvas.Left="857" Canvas.Top="583" 
+               Source="{Binding NovaStruja.Type.Img_src, UpdateSourceTrigger=PropertyChanged}"/>
+        <Button x:Name="btAdd" Content="Add" FontFamily="MS Comic Sans" FontSize="20" Height="50" Width="220" Canvas.Left="1120" Canvas.Top="571" 
+                Command="{Binding AddCommand}" ToolTipService.IsEnabled="{Binding ToolTipsBool}" ToolTip="Dugme za dodavanje novog entiteta"/>
+        <Button x:Name="btDelete" Content="Delete" FontFamily="MS Comic Sans" FontSize="20" Height="45" Width="220" Canvas.Left="1120" Canvas.Top="668" 
+                Command="{Binding DeleteCommand}" ToolTipService.IsEnabled="{Binding ToolTipsBool}" ToolTip="Dugme za uklanjanje izabranog entiteta iz tabele"/>
+        <CheckBox Content="ToolTip" IsChecked="{Binding ToolTipsBool}" FontFamily="Comic Sans MS" FontSize="15" Canvas.Left="1230" Canvas.Top="7" 
+                  Height="20" Width="75">
+            <CheckBox.LayoutTransform>
+                <ScaleTransform ScaleX="2" ScaleY="2" />
+            </CheckBox.LayoutTransform>
+        </CheckBox>
+        <Button Content="🛈 Help" FontFamily="Comic Sans MS" FontSize="30" Canvas.Left="1230" Canvas.Top="50" BorderThickness="0" Background="Transparent"
+                Height="50" Command="{Binding HelpCommand}"/>
+        <Canvas Width="408" Canvas.Left="955" Canvas.Top="148" Height="394">
+            <TextBlock Text="{Binding Path=HelpText, Mode=OneWay}" Width="408" Height="394"
+                           TextWrapping="Wrap" FontSize="14" FontFamily="Comic Sans MS" />
+        </Canvas>
+    </Canvas>
+</UserControl>
